@@ -1,0 +1,28 @@
+[CONFIG]
+# Create a new organization in Gitea when the repository username
+# is different from your GitHub username.
+CREATE_ORG = true
+# Remove existing repositories in Gitea.
+# You may not want to enable this option, since Gitea will
+# automatically fetch the mirror repositories every 8 hours.
+REMOVE_EXISTING_REPO = false
+# Mirror the repositories you own.
+MIRROR_OWNED = true
+# Mirror the repositories you forked.
+MIRROR_FORKED = true
+# Mirror the repositories you starred.
+MIRROR_STARED = false
+# Mirror the repositories that you have collaborator access.
+# See: https://docs.github.com/zh/rest/repos/repos#list-repositories-for-the-authenticated-user
+MIRROR_COLLABORATOR = false
+# Mirror the repositories in organizations that you are a member.
+MIRROR_ORGANIZATION = false
+
+[RULE]
+# "whitelist" or "blacklist" to only mirror or skip repositories
+# that match the regex.
+MODE = "blacklist"
+REGEX = [
+    "EpicGames/.*",
+    "NVIDIAGameWorks/.*"
+]

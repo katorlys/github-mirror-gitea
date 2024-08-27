@@ -6,11 +6,11 @@
 </a><br> -->
 
 <h1>
-  ExampleProject
+  github-mirror-gitea
 </h1>
 
 <p>
-  One sentence to describe project
+  Mirror your GitHub repositories to your Gitea server.
 </p>
 
 [![Pull Requests][github-pr-badge]][github-pr-link]
@@ -23,7 +23,21 @@
 <!-- Main Body -->
 
 ## Introduction
-Describe your project clearly here.
+A Python script to mirror your GitHub repositories to your Gitea server, with multiple options.
+
+
+## Usage
+### Step 1
+Add the following in your Gitea server's `gitea/conf/app.ini` file:
+```ini
+[migrations]
+ALLOWED_DOMAINS = github.com, *.github.com
+```
+
+### Step 2
+Open`credentials.toml`, and fill out all the fields.
+
+Open `options.toml`, and adjust the options as needed.
 
 <!-- /Main Body -->
 
@@ -47,11 +61,11 @@ Describe your project clearly here.
 </div>
 
 [back-to-top-button]: https://img.shields.io/badge/BACK_TO_TOP-151515?style=flat-square
-[github-pr-badge]: https://img.shields.io/github/issues-pr/katorlys/ExampleProject?label=pulls&labelColor=151515&color=79E096&style=flat-square
-[github-pr-link]: https://github.com/katorlys/ExampleProject/pulls
-[github-issue-badge]: https://img.shields.io/github/issues/katorlys/ExampleProject?labelColor=151515&color=FFC868&style=flat-square
-[github-issue-link]: https://github.com/katorlys/ExampleProject/issues
-[github-license-badge]: https://img.shields.io/github/license/katorlys/ExampleProject?labelColor=151515&color=EFEFEF&style=flat-square
+[github-pr-badge]: https://img.shields.io/github/issues-pr/katorlys/github-mirror-gitea?label=pulls&labelColor=151515&color=79E096&style=flat-square
+[github-pr-link]: https://github.com/katorlys/github-mirror-gitea/pulls
+[github-issue-badge]: https://img.shields.io/github/issues/katorlys/github-mirror-gitea?labelColor=151515&color=FFC868&style=flat-square
+[github-issue-link]: https://github.com/katorlys/github-mirror-gitea/issues
+[github-license-badge]: https://img.shields.io/github/license/katorlys/github-mirror-gitea?labelColor=151515&color=EFEFEF&style=flat-square
 <!-- https://img.shields.io/badge/license-CC_BY--NC--SA_4.0-EFEFEF?labelColor=151515&style=flat-square -->
-[github-license-badge-bottom]: https://img.shields.io/github/license/katorlys/ExampleProject?labelColor=151515&color=EFEFEF&style=for-the-badge
+[github-license-badge-bottom]: https://img.shields.io/github/license/katorlys/github-mirror-gitea?labelColor=151515&color=EFEFEF&style=for-the-badge
 <!-- https://img.shields.io/badge/license-CC_BY--NC--SA_4.0-EFEFEF?labelColor=151515&style=for-the-badge -->
