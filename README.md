@@ -47,44 +47,47 @@ If the repository on GitHub is private, the mirror repository will also be priva
 
 
 ## Getting Started
-### Allow migration from GitHub
-Add the following in your Gitea server's `gitea/conf/app.ini` file:
+### Prerequisites
+Add the following content in your Gitea server's `gitea/conf/app.ini` file:
 ```ini
 [migrations]
 ALLOWED_DOMAINS = github.com, *.github.com
 ```
 
-### Configure credentials and options
-Configure [`credentials.toml`](config/credentials.toml):
+### Configuration
+All credentials are needed to be configured properly:
 
-|    Key     | Description                                                                                                               |
-|:----------:|:--------------------------------------------------------------------------------------------------------------------------|
-| **GITHUB** |                                                                                                                           |
-|  USERNAME  | Your GitHub username                                                                                                      |
-|    PAT     | Your GitHub personal access token, needed permissions:<br> - repo (Full control of private repositories)                  |
-| **GITEA**  |                                                                                                                           |
-|  USERNAME  | Your Gitea username                                                                                                       |
-|    HOST    | Your Gitea hostname, starts with `http://` or `https://`                                                                  |
-|    PAT     | Your Gitea personal access token, needed permissions:<br> - repository: Read and Write<br> - organization: Read and Write |
+| Key        | Description                                                                                                                                                                                                   |
+|:-----------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **GITHUB** |                                                                                                                                                                                                               |
+| USERNAME   | Your GitHub username                                                                                                                                                                                          |
+| PAT        | Your GitHub personal access token, needed permissions:<br> - repo (Full control of private repositories)<br> If you only want to mirror public repositories, grant the following only:<br> - repo:public_repo |
+| **GITEA**  |                                                                                                                                                                                                               |
+| USERNAME   | Your Gitea username                                                                                                                                                                                           |
+| HOST       | Your Gitea hostname, starts with `http://` or `https://`                                                                                                                                                      |
+| PAT        | Your Gitea personal access token, needed permissions:<br> - repository: Read and Write<br> If you set `CREATE_ORG` in `options.toml` to true, you also need to grant:<br> - organization: Read and Write      |
 
-Configure [ `options.toml`](config/options.toml):
+You can customize these options for mirroring:
 
-|         Key          | Description                                                                                                                                                |
-|:--------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-|      **CONFIG**      |                                                                                                                                                            |
-|      CREATE_ORG      | Create a new organization in Gitea when the repository username is different from your GitHub username.                                                    |
+| Key                  | Description                                                                                                                                                |
+|:---------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **CONFIG**           |                                                                                                                                                            |
+| CREATE_ORG           | Create a new organization in Gitea when the repository username is different from your GitHub username.                                                    |
 | REMOVE_EXISTING_REPO | Remove existing repositories in Gitea. You may not want to enable this option, since Gitea will automatically fetch the mirror repositories every 8 hours. |
-|     MIRROR_OWNED     | Mirror the repositories you own.                                                                                                                           |
-|    MIRROR_FORKED     | Mirror the repositories you forked.                                                                                                                        |
-|    MIRROR_STARRED    | Mirror the repositories you starred.                                                                                                                       |
+| MIRROR_OWNED         | Mirror the repositories you own.                                                                                                                           |
+| MIRROR_FORKED        | Mirror the repositories you forked.                                                                                                                        |
+| MIRROR_STARRED       | Mirror the repositories you starred.                                                                                                                       |
 | MIRROR_COLLABORATOR  | Mirror the repositories that you have collaborator access. See: https://docs.github.com/zh/rest/repos/repos#list-repositories-for-the-authenticated-user   |
 | MIRROR_ORGANIZATION  | Mirror the repositories in organizations that you are a member.                                                                                            |
-|       **RULE**       |                                                                                                                                                            |
-|         MODE         | `whitelist` or `blacklist` to only mirror or skip repositories that match the regex.                                                                       |
-|        REGEX         | Regex list.                                                                                                                                                |
+| **RULE**             |                                                                                                                                                            |
+| MODE                 | `whitelist` or `blacklist` to only mirror or skip repositories that match the regex.                                                                       |
+| REGEX                | Regex list.                                                                                                                                                |
 
 
 ## Usage
+### Python script
+Configure [`credentials.toml`](config/credentials.toml), and [ `options.toml`](config/options.toml).
+
 Install the required packages:
 ```bash
 pip install -r requirements.txt
@@ -93,6 +96,28 @@ Run the script:
 ```bash
 python main.py
 ```
+
+### Docker
+Make sure you've modified the `<>` placeholders and the options before running the following command:
+```bash
+docker run --rm \
+            -e GITHUB_USERNAME=<GITHUB_USERNAME> \
+            -e GITHUB_PAT=<GITHUB_PAT> \
+            -e GITEA_USERNAME=<GITEA_USERNAME> \
+            -e GITEA_HOST=<GITEA_HOST> \
+            -e GITEA_PAT=<GITEA_PAT> \
+            -e CREATE_ORG=true \
+            -e REMOVE_EXISTING_REPO=false \
+            -e MIRROR_OWNED=true \
+            -e MIRROR_FORKED=true \
+            -e MIRROR_STARED=false \
+            -e MIRROR_COLLABORATOR=false \
+            -e MIRROR_ORGANIZATION=false \
+            -e RULE_MODE="blacklist" \
+            -e RULE_REGEX="EpicGames/.*,NVIDIAGameWorks/.*" \
+            katorlys/github-mirror-gitea:latest
+```
+
 
 <!-- /Main Body -->
 
