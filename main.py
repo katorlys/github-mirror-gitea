@@ -11,5 +11,5 @@ def main():
         mirror_to_gitea(repo)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

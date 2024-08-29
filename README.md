@@ -40,7 +40,7 @@ There are many options to choose from:
 - Whether to remove existing repos in Gitea
 - Whether to create new organizations in Gitea if `{username}` in `{username}/{repo_name}` doesn't match your GitHub username
 
-If the repository on GitHub is private, the mirror repository will also be private.
+Will also mirror your repository description and private status.
 
 ### Tech Stack
 - Python3
