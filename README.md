@@ -101,21 +101,21 @@ python main.py
 Make sure you've modified the `<>` placeholders and the options before running the following command:
 ```bash
 docker run --rm \
-            -e GITHUB_USERNAME=<GITHUB_USERNAME> \
-            -e GITHUB_PAT=<GITHUB_PAT> \
-            -e GITEA_USERNAME=<GITEA_USERNAME> \
-            -e GITEA_HOST=<GITEA_HOST> \
-            -e GITEA_PAT=<GITEA_PAT> \
-            -e CREATE_ORG=true \
-            -e REMOVE_EXISTING_REPO=false \
-            -e MIRROR_OWNED=true \
-            -e MIRROR_FORKED=true \
-            -e MIRROR_STARED=false \
-            -e MIRROR_COLLABORATOR=false \
-            -e MIRROR_ORGANIZATION=false \
-            -e RULE_MODE="blacklist" \
-            -e RULE_REGEX="EpicGames/.*,NVIDIAGameWorks/.*" \
-            katorlys/github-mirror-gitea:latest
+    -e GITHUB_USERNAME=<GITHUB_USERNAME> \
+    -e GITHUB_PAT=<GITHUB_PAT> \
+    -e GITEA_USERNAME=<GITEA_USERNAME> \
+    -e GITEA_HOST=<GITEA_HOST> \
+    -e GITEA_PAT=<GITEA_PAT> \
+    -e CREATE_ORG=true \
+    -e REMOVE_EXISTING_REPO=false \
+    -e MIRROR_OWNED=true \
+    -e MIRROR_FORKED=true \
+    -e MIRROR_STARED=false \
+    -e MIRROR_COLLABORATOR=false \
+    -e MIRROR_ORGANIZATION=false \
+    -e RULE_MODE="blacklist" \
+    -e RULE_REGEX="EpicGames/.*,NVIDIAGameWorks/.*" \
+    katorlys/github-mirror-gitea:latest
 ```
 
 
