@@ -26,7 +26,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          DATE_TAG=$(TZ=Asia/Singapore date +'%Y.%m.%d')
-          docker build -t --no-cache ${{ secrets.DOCKER_USERNAME }}/github-mirror-gitea:$DATE_TAG -t ${{ secrets.DOCKER_USERNAME }}/github-mirror-gitea:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/github-mirror-gitea:$DATE_TAG
-          docker push ${{ secrets.DOCKER_USERNAME }}/github-mirror-gitea:latest
+          VERSION_TAG=${{ github.event.release.tag_name }}
+          docker build --no-cache -t katorlys/github-mirror-gitea:$VERSION_TAG -t katorlys/github-mirror-gitea:latest .
+          docker push katorlys/github-mirror-gitea:$VERSION_TAG
+          docker push katorlys/github-mirror-gitea:latest
