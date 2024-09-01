@@ -118,6 +118,45 @@ docker run --rm \
     katorlys/github-mirror-gitea:latest
 ```
 
+### GitHub Actions
+Run docker image in GitHub Actions:
+```yml
+name: Github mirror to Gitea
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: 0 0 * * *
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Docker container
+        run: |
+          docker run --rm \
+            -e GITHUB_USERNAME=${{ secrets.GITHUB_USERNAME }} \
+            -e GITHUB_PAT=${{ secrets.GITHUB_PAT }} \
+            -e GITEA_USERNAME=${{ secrets.GITEA_USERNAME }} \
+            -e GITEA_HOST=${{ secrets.GITEA_HOST }} \
+            -e GITEA_PAT=${{ secrets.GITEA_PAT }} \
+            -e CREATE_ORG=true \
+            -e REMOVE_EXISTING_REPO=false \
+            -e MIRROR_OWNED=true \
+            -e MIRROR_FORKED=true \
+            -e MIRROR_STARED=false \
+            -e MIRROR_COLLABORATOR=false \
+            -e MIRROR_ORGANIZATION=false \
+            -e RULE_MODE="blacklist" \
+            -e RULE_REGEX="EpicGames/.*,NVIDIAGameWorks/.*" \
+            katorlys/github-mirror-gitea:latest
+```
+
 
 <!-- /Main Body -->
 
