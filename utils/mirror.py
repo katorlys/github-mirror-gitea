@@ -58,7 +58,9 @@ def mirror_to_gitea(repo):
             logging.info(f"\tSuccess: {target_repo_name}")
             break
         else:
-            logging.warning(f"\tFailed: {target_repo_name}: {response.status_code} {response.content}")
+            logging.warning(
+                f"\tFailed: {target_repo_name}: {response.status_code} {response.content}"
+            )
             if attempt < 2:
                 logging.info(f"\tRetrying: {target_repo_name}")
                 time.sleep(5)

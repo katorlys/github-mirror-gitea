@@ -29,7 +29,8 @@ def fetch_github_repos():
         repos.extend(
             fetch_request(
                 "https://api.github.com/user/starred?per_page={per_page}",
-                headers, "GitHub repositories"
+                headers,
+                "GitHub repositories",
             )
         )
 
@@ -46,7 +47,8 @@ def fetch_github_repos():
         repos.extend(
             fetch_request(
                 f"https://api.github.com/user/repos?per_page={{per_page}}&affiliation={affiliation_param}",
-                headers, "GitHub repositories"
+                headers,
+                "GitHub repositories",
             )
         )
 

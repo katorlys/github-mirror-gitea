@@ -10,14 +10,16 @@ def fetch_gitea_repos():
     repos = []
     page = 1
     per_page = 50
-    headers = {'Authorization': f'token {config.GITEA_PAT}'}
+    headers = {"Authorization": f"token {config.GITEA_PAT}"}
 
     logging.info("\nFetching Gitea repositories...")
     while True:
         url = f"{config.GITEA_HOST}/api/v1/user/repos?page={page}&limit={per_page}"
         response = requests.get(url, headers=headers)
         if response.status_code != 200:
-            logging.warning(f"Failed to fetch Gitea repositories: {response.status_code} {response.content}")
+            logging.warning(
+                f"Failed to fetch Gitea repositories: {response.status_code} {response.content}"
+            )
             break
         page_repos = response.json()
         if not page_repos:
@@ -39,7 +41,9 @@ def remove_inexist_repo(github_repos, gitea_repos):
             if response.status_code == 204:
                 logging.info(f"Removed removed: {repo['full_name']}")
             else:
-                logging.warning(f"Repository removal failed: {repo['full_name']}: {response.status_code} {response.content}")
+                logging.warning(
+                    f"Repository removal failed: {repo['full_name']}: {response.status_code} {response.content}"
+                )
 
 
 def check_gitea_repo_exists(repo_name):
@@ -54,4 +58,6 @@ def remove_gitea_repo(repo_name):
     if response.status_code == 204:
         logging.info(f"Repository removed: {repo_name}")
     else:
-        logging.warning(f"Repository removal failed: {repo_name}: {response.status_code} {response.content}")
+        logging.warning(
+            f"Repository removal failed: {repo_name}: {response.status_code} {response.content}"
+        )
