@@ -15,6 +15,11 @@ GITHUB_USERNAME = os.getenv("GITHUB_USERNAME", credentials["GITHUB"]["USERNAME"]
 CREATE_ORG = (
     os.getenv("CREATE_ORG", str(options["CONFIG"]["CREATE_ORG"])).lower() == "true"
 )
+REMOVE_INEXIST_REPO = (
+    os.getenv("REMOVE_INEXIST_REPO", str(options["CONFIG"]["REMOVE_INEXIST_REPO"]))
+    .lower()
+    == "true"
+)
 REMOVE_EXISTING_REPO = (
     os.getenv(
         "REMOVE_EXISTING_REPO", str(options["CONFIG"]["REMOVE_EXISTING_REPO"])

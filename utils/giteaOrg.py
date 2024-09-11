@@ -25,4 +25,4 @@ def create_gitea_org(org_name):
     if response.status_code == 201:
         logging.info(f"Organization created: {org_name}")
     else:
-        logging.warning(f"Organization creation failed: {org_name}: {response.content}")
+        logging.warning(f"Organization creation failed: {org_name}: {response.status_code} {response.content}")

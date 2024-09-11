@@ -69,19 +69,20 @@ All credentials are needed to be configured properly:
 
 You can customize these options for mirroring:
 
-| Key                  | Description                                                                                                                                                |
-|:---------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **CONFIG**           |                                                                                                                                                            |
-| CREATE_ORG           | Create a new organization in Gitea when the repository username is different from your GitHub username.                                                    |
-| REMOVE_EXISTING_REPO | Remove existing repositories in Gitea. You may not want to enable this option, since Gitea will automatically fetch the mirror repositories every 8 hours. |
-| MIRROR_OWNED         | Mirror the repositories you own.                                                                                                                           |
-| MIRROR_FORKED        | Mirror the repositories you forked.                                                                                                                        |
-| MIRROR_STARRED       | Mirror the repositories you starred.                                                                                                                       |
-| MIRROR_COLLABORATOR  | Mirror the repositories that you have collaborator access. See: https://docs.github.com/zh/rest/repos/repos#list-repositories-for-the-authenticated-user   |
-| MIRROR_ORGANIZATION  | Mirror the repositories in organizations that you are a member.                                                                                            |
-| **RULE**             |                                                                                                                                                            |
-| MODE                 | `whitelist` or `blacklist` to only mirror or skip repositories that match the regex.                                                                       |
-| REGEX                | Regex list.                                                                                                                                                |
+| Key                  | Description                                                                                                                                                                                                                                              |
+|:---------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **CONFIG**           |                                                                                                                                                                                                                                                          |
+| CREATE_ORG           | Create a new organization in Gitea when the repository username is different from your GitHub username.                                                                                                                                                  |
+| REMOVE_INEXIST_REPO  | Remove all repositories in Gitea owned by the user (including those in organizations) that do not exist in GitHub.                                                                                                                                       |
+| REMOVE_EXISTING_REPO | Remove existing repositories in Gitea. This will only remove the repositories that have the same name as the repositories in GitHub. You may not want to enable this option, since Gitea will automatically fetch the mirror repositories every 8 hours. |
+| MIRROR_OWNED         | Mirror the repositories you own.                                                                                                                                                                                                                         |
+| MIRROR_FORKED        | Mirror the repositories you forked.                                                                                                                                                                                                                      |
+| MIRROR_STARRED       | Mirror the repositories you starred.                                                                                                                                                                                                                     |
+| MIRROR_COLLABORATOR  | Mirror the repositories that you have collaborator access. See: https://docs.github.com/zh/rest/repos/repos#list-repositories-for-the-authenticated-user                                                                                                 |
+| MIRROR_ORGANIZATION  | Mirror the repositories in organizations that you are a member.                                                                                                                                                                                          |
+| **RULE**             |                                                                                                                                                                                                                                                          |
+| MODE                 | `whitelist` or `blacklist` to only mirror or skip repositories that match the regex.                                                                                                                                                                     |
+| REGEX                | Regex list.                                                                                                                                                                                                                                              |
 
 
 ## Usage
@@ -156,6 +157,14 @@ jobs:
             -e RULE_REGEX="EpicGames/.*,NVIDIAGameWorks/.*" \
             katorlys/github-mirror-gitea:latest
 ```
+
+
+## Frequently Asked
+| Error message                                                                                                                                                               | Solution                                                                                |
+|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------|
+| `403 b'{"message":"token does not have at least one of required scope(s):`                                                                                                  | Follow the message's instruction to grant the required permissions to your PAT.         |
+| My repository doesn't exist on Gitea, but the script returns `Skip (exists)`                                                                                                | Please don't transfer the mirrored repository to another user or organization on Gitea. |
+| `b'{"message":"Migration failed: clone error: exit status 128 - fatal: unable to access \'https://github.com/username/repo.git/\': Could not resolve host: github.com\\n."` | Make sure your Gitea host can access GitHub.                                            |
 
 
 <!-- /Main Body -->
