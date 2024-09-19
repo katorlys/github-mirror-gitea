@@ -43,7 +43,7 @@ def fetch_github_repos():
     if config.MIRROR_STARRED:
         repos.extend(
             fetch_request(
-                f"https://api.github.com/user/starred?page={{page}}&per_page={{per_page}}",
+                "https://api.github.com/user/starred?page={{page}}&per_page={{per_page}}",
                 headers(),
                 "GitHub repositories",
             )
