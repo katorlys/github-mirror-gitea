@@ -12,14 +12,14 @@ def headers():
     }
 
 
-def fetch_request(raw_url, headers, name):
+def fetch_request(raw_url, header, name):
     repos = []
     page = 1
     per_page = 200
 
     while True:
         response = requests.get(
-            raw_url.format(per_page=per_page, page=page), headers=headers
+            raw_url.format(per_page=per_page, page=page), headers=header
         )
         if response.status_code != 200:
             logging.warning(
@@ -43,7 +43,7 @@ def fetch_github_repos():
     if config.MIRROR_STARRED:
         repos.extend(
             fetch_request(
-                f"https://api.github.com/user/starred?page={{page}}&per_page={{per_page}}",
+                "https://api.github.com/user/starred?page={{page}}&per_page={{per_page}}",
                 headers(),
                 "GitHub repositories",
             )
