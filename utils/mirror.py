@@ -56,7 +56,11 @@ def mirror_to_gitea(repo):
     }
 
     for attempt in range(3):  # Retry if failed
-        response = requests.post(f"{cache.HOST}/repos/migrate", headers=cache.headers_json(), data=json.dumps(data))
+        response = requests.post(
+            f"{cache.HOST}/repos/migrate",
+            headers=cache.headers_json(),
+            data=json.dumps(data),
+        )
         if response.status_code == 201:
             logging.info(f"\tSuccess: {target_repo_name}")
             break

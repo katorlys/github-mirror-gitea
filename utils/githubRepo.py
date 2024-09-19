@@ -18,7 +18,9 @@ def fetch_request(raw_url, headers, name):
     per_page = 200
 
     while True:
-        response = requests.get(raw_url.format(per_page=per_page, page=page), headers=headers)
+        response = requests.get(
+            raw_url.format(per_page=per_page, page=page), headers=headers
+        )
         if response.status_code != 200:
             logging.warning(
                 f"Failed to fetch {name}: {response.status_code} {response.content}"

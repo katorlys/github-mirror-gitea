@@ -12,7 +12,10 @@ def fetch_gitea_repos():
 
     logging.info("\nFetching Gitea repositories...")
     while True:
-        response = requests.get(f"{cache.HOST}/user/repos?page={page}&limit={per_page}", headers=cache.headers())
+        response = requests.get(
+            f"{cache.HOST}/user/repos?page={page}&limit={per_page}",
+            headers=cache.headers(),
+        )
         if response.status_code != 200:
             logging.warning(
                 f"Failed to fetch Gitea repositories: {response.status_code} {response.content}"
@@ -32,7 +35,10 @@ def remove_inexist_repo(github_repos, gitea_repos):
     github_repo_names = {repo["name"] for repo in github_repos}
     for repo in gitea_repos:
         if repo["name"] not in github_repo_names:
-            response = requests.delete(f"{cache.HOST}/repos/{repo['owner']['username']}/{repo['name']}", headers=cache.headers())
+            response = requests.delete(
+                f"{cache.HOST}/repos/{repo['owner']['username']}/{repo['name']}",
+                headers=cache.headers(),
+            )
             if response.status_code == 204:
                 logging.info(f"Removed removed: {repo['full_name']}")
             else:
@@ -42,12 +48,16 @@ def remove_inexist_repo(github_repos, gitea_repos):
 
 
 def check_gitea_repo_exists(repo_name):
-    response = requests.get(f"{cache.HOST}/repos/{repo_name}", headers=cache.headers_json())
+    response = requests.get(
+        f"{cache.HOST}/repos/{repo_name}", headers=cache.headers_json()
+    )
     return response.status_code == 200
 
 
 def remove_gitea_repo(repo_name):
-    response = requests.delete(f"{cache.HOST}/repos/{repo_name}", headers=cache.headers_json())
+    response = requests.delete(
+        f"{cache.HOST}/repos/{repo_name}", headers=cache.headers_json()
+    )
 
     if response.status_code == 204:
         logging.info(f"Repository removed: {repo_name}")
