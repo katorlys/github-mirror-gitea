@@ -18,6 +18,10 @@ def mirror_to_gitea(repo):
         logging.info(f"\tSkip (regex): {repo_name}")
         return
 
+    if not config.MIRROR_PRIVATE and repo.get("private"):
+        logging.info(f"\tSkip (private): {repo_name}")
+        return
+
     if not config.MIRROR_FORKED and repo.get("fork"):
         logging.info(f"\tSkip (fork): {repo_name}")
         return
@@ -38,7 +42,6 @@ def mirror_to_gitea(repo):
             logging.info(f"\tSkip (exists): {target_repo_name}")
             return
 
-    url = f"{config.GITEA_HOST}/api/v1/repos/migrate"
     description = (
         repo["description"] if repo["description"] else "No description provided."
     )
@@ -53,7 +56,7 @@ def mirror_to_gitea(repo):
     }
 
     for attempt in range(3):  # Retry if failed
-        response = requests.post(url, headers=cache.headers(), data=json.dumps(data))
+        response = requests.post(f"{cache.HOST}/repos/migrate", headers=cache.headers_json(), data=json.dumps(data))
         if response.status_code == 201:
             logging.info(f"\tSuccess: {target_repo_name}")
             break

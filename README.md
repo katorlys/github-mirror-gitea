@@ -2,7 +2,7 @@
 <div align="center">
 
 <!-- <a href="#">
-  <img src="https://github.com/katorlys/.github/blob/main/assets/logo/logo.png" height="100">
+  <img src="https://github.com/katorlys/.github/blob/main/assets/mark/mark.svg" height="100">
 </a><br> -->
 
 <h1>
@@ -76,6 +76,7 @@ You can customize these options for mirroring:
 | REMOVE_INEXIST_REPO  | Remove all repositories in Gitea owned by the user (including those in organizations) that do not exist in GitHub.                                                                                                                                       |
 | REMOVE_EXISTING_REPO | Remove existing repositories in Gitea. This will only remove the repositories that have the same name as the repositories in GitHub. You may not want to enable this option, since Gitea will automatically fetch the mirror repositories every 8 hours. |
 | MIRROR_OWNED         | Mirror the repositories you own.                                                                                                                                                                                                                         |
+| MIRROR_PRIVATE       | Mirror private repositories you own.                                                                                                                                                                                                                     |
 | MIRROR_FORKED        | Mirror the repositories you forked.                                                                                                                                                                                                                      |
 | MIRROR_STARRED       | Mirror the repositories you starred.                                                                                                                                                                                                                     |
 | MIRROR_COLLABORATOR  | Mirror the repositories that you have collaborator access. See: https://docs.github.com/zh/rest/repos/repos#list-repositories-for-the-authenticated-user                                                                                                 |
@@ -89,6 +90,11 @@ You can customize these options for mirroring:
 ### Python script
 Configure [`credentials.toml`](config/credentials.toml), and [ `options.toml`](config/options.toml).
 
+Clone the repository:
+```bash
+git clone https://github.com/katorlys/github-mirror-gitea
+cd github-mirror-gitea
+```
 Install the required packages:
 ```bash
 pip install -r requirements.txt
@@ -110,8 +116,9 @@ docker run --rm \
     -e CREATE_ORG=true \
     -e REMOVE_EXISTING_REPO=false \
     -e MIRROR_OWNED=true \
+    -e MIRROR_PRIVATE=true \
     -e MIRROR_FORKED=true \
-    -e MIRROR_STARED=false \
+    -e MIRROR_STARRED=false \
     -e MIRROR_COLLABORATOR=false \
     -e MIRROR_ORGANIZATION=false \
     -e RULE_MODE="blacklist" \
@@ -120,9 +127,44 @@ docker run --rm \
 ```
 
 ### GitHub Actions
-Run docker image in GitHub Actions:
+We've created a [GitHub Action](https://github.com/katorlys/gitea-mirror-action) for this script. Here's an example workflow file:
 ```yml
-name: Github mirror to Gitea
+name: Mirror GitHub to Gitea
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: GitHub mirror Gitea
+        uses: katorlys/gitea-mirror-action@v1
+        with:
+          GITHUB_USERNAME: ${{ secrets.GITHUB_USERNAME }}
+          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+          GITEA_HOST: ${{ secrets.GITEA_HOST }}
+          GITEA_USERNAME: ${{ secrets.GITEA_USERNAME }}
+          GITEA_PAT: ${{ secrets.GITEA_PAT }}
+          CREATE_ORG: true
+          REMOVE_INEXIST_REPO: false
+          REMOVE_EXISTING_REPO: false
+          MIRROR_OWNED: true
+          MIRROR_PRIVATE: true
+          MIRROR_FORKED: true
+          MIRROR_STARRED: false
+          MIRROR_COLLABORATOR: false
+          MIRROR_ORGANIZATION: false
+          RULE_MODE: 'blacklist'
+          RULE_REGEX: 'EpicGames/.*,NVIDIAGameWorks/.*'
+```
+
+If you prefer to run our Docker image in GitHub Actions, you can use the following workflow file:
+```yml
+name: Mirror Github to Gitea
 
 on:
   workflow_dispatch:
@@ -131,7 +173,7 @@ on:
     - cron: 0 0 * * *
 
 jobs:
-  build:
+  mirror:
     runs-on: ubuntu-latest
 
     steps:
@@ -149,8 +191,9 @@ jobs:
             -e CREATE_ORG=true \
             -e REMOVE_EXISTING_REPO=false \
             -e MIRROR_OWNED=true \
+            -e MIRROR_PRIVATE=true \
             -e MIRROR_FORKED=true \
-            -e MIRROR_STARED=false \
+            -e MIRROR_STARRED=false \
             -e MIRROR_COLLABORATOR=false \
             -e MIRROR_ORGANIZATION=false \
             -e RULE_MODE="blacklist" \

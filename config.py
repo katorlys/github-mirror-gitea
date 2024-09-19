@@ -30,12 +30,15 @@ REMOVE_EXISTING_REPO = (
 MIRROR_OWNED = (
     os.getenv("MIRROR_OWNED", str(options["CONFIG"]["MIRROR_OWNED"])).lower() == "true"
 )
+MIRROR_PRIVATE = (
+        os.getenv("MIRROR_PRIVATE", str(options["CONFIG"]["MIRROR_PRIVATE"])).lower() == "true"
+)
 MIRROR_FORKED = (
     os.getenv("MIRROR_FORKED", str(options["CONFIG"]["MIRROR_FORKED"])).lower()
     == "true"
 )
-MIRROR_STARED = (
-    os.getenv("MIRROR_STARED", str(options["CONFIG"]["MIRROR_STARED"])).lower()
+MIRROR_STARRED = (
+    os.getenv("MIRROR_STARRED", str(options["CONFIG"]["MIRROR_STARRED"])).lower()
     == "true"
 )
 MIRROR_COLLABORATOR = (

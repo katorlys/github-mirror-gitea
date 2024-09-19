@@ -3,19 +3,16 @@ import logging
 import requests
 
 import cache
-import config
 
 
 def fetch_gitea_repos():
     repos = []
     page = 1
-    per_page = 50
-    headers = {"Authorization": f"token {config.GITEA_PAT}"}
+    per_page = 200
 
     logging.info("\nFetching Gitea repositories...")
     while True:
-        url = f"{config.GITEA_HOST}/api/v1/user/repos?page={page}&limit={per_page}"
-        response = requests.get(url, headers=headers)
+        response = requests.get(f"{cache.HOST}/user/repos?page={page}&limit={per_page}", headers=cache.headers())
         if response.status_code != 200:
             logging.warning(
                 f"Failed to fetch Gitea repositories: {response.status_code} {response.content}"
@@ -35,9 +32,7 @@ def remove_inexist_repo(github_repos, gitea_repos):
     github_repo_names = {repo["name"] for repo in github_repos}
     for repo in gitea_repos:
         if repo["name"] not in github_repo_names:
-            url = f"{config.GITEA_HOST}/api/v1/repos/{repo['owner']['username']}/{repo['name']}"
-            headers = {"Authorization": f"token {config.GITEA_PAT}"}
-            response = requests.delete(url, headers=headers)
+            response = requests.delete(f"{cache.HOST}/repos/{repo['owner']['username']}/{repo['name']}", headers=cache.headers())
             if response.status_code == 204:
                 logging.info(f"Removed removed: {repo['full_name']}")
             else:
@@ -47,14 +42,13 @@ def remove_inexist_repo(github_repos, gitea_repos):
 
 
 def check_gitea_repo_exists(repo_name):
-    url = f"{config.GITEA_HOST}/api/v1/repos/{repo_name}"
-    response = requests.get(url, headers=cache.headers())
+    response = requests.get(f"{cache.HOST}/repos/{repo_name}", headers=cache.headers_json())
     return response.status_code == 200
 
 
 def remove_gitea_repo(repo_name):
-    url = f"{config.GITEA_HOST}/api/v1/repos/{repo_name}"
-    response = requests.delete(url, headers=cache.headers())
+    response = requests.delete(f"{cache.HOST}/repos/{repo_name}", headers=cache.headers_json())
+
     if response.status_code == 204:
         logging.info(f"Repository removed: {repo_name}")
     else:

@@ -13,10 +13,12 @@ REMOVE_INEXIST_REPO = false
 REMOVE_EXISTING_REPO = false
 # Mirror the repositories you own.
 MIRROR_OWNED = true
+# Mirror private repositories you own.
+MIRROR_PRIVATE = true
 # Mirror the repositories you forked.
 MIRROR_FORKED = true
 # Mirror the repositories you starred.
-MIRROR_STARED = false
+MIRROR_STARRED = false
 # Mirror the repositories that you have collaborator access.
 # See: https://docs.github.com/zh/rest/repos/repos#list-repositories-for-the-authenticated-user
 MIRROR_COLLABORATOR = false
