@@ -144,8 +144,8 @@ jobs:
       - name: GitHub mirror Gitea
         uses: katorlys/gitea-mirror-action@v1
         with:
-          GITHUB_USERNAME: ${{ secrets.GITHUB_USERNAME }}
-          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+          GITHUB_USERNAME: ${{ secrets.GH_USERNAME }}
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
           GITEA_HOST: ${{ secrets.GITEA_HOST }}
           GITEA_USERNAME: ${{ secrets.GITEA_USERNAME }}
           GITEA_PAT: ${{ secrets.GITEA_PAT }}
@@ -158,8 +158,8 @@ jobs:
           MIRROR_STARRED: false
           MIRROR_COLLABORATOR: false
           MIRROR_ORGANIZATION: false
-          RULE_MODE: 'blacklist'
-          RULE_REGEX: 'EpicGames/.*,NVIDIAGameWorks/.*'
+          MODE: 'blacklist'
+          REGEX: 'EpicGames/.*,NVIDIAGameWorks/.*'
 ```
 
 If you prefer to run our Docker image in GitHub Actions, you can use the following workflow file:
@@ -183,8 +183,8 @@ jobs:
       - name: Run Docker container
         run: |
           docker run --rm \
-            -e GITHUB_USERNAME=${{ secrets.GITHUB_USERNAME }} \
-            -e GITHUB_PAT=${{ secrets.GITHUB_PAT }} \
+            -e GITHUB_USERNAME=${{ secrets.GH_USERNAME }} \
+            -e GITHUB_PAT=${{ secrets.GH_PAT }} \
             -e GITEA_USERNAME=${{ secrets.GITEA_USERNAME }} \
             -e GITEA_HOST=${{ secrets.GITEA_HOST }} \
             -e GITEA_PAT=${{ secrets.GITEA_PAT }} \
@@ -196,7 +196,7 @@ jobs:
             -e MIRROR_STARRED=false \
             -e MIRROR_COLLABORATOR=false \
             -e MIRROR_ORGANIZATION=false \
-            -e RULE_MODE="blacklist" \
+            -e MODE="blacklist" \
             -e RULE_REGEX="EpicGames/.*,NVIDIAGameWorks/.*" \
             katorlys/github-mirror-gitea:latest
 ```
