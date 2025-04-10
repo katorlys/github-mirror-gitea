@@ -32,6 +32,7 @@ def fetch_gitea_repos():
 
 
 def remove_inexist_repo(github_repos, gitea_repos):
+    logging.info("\nRemoving in-existing repositories...")
     github_repo_names = {repo["name"] for repo in github_repos}
     for repo in gitea_repos:
         if repo["name"] not in github_repo_names:
@@ -40,7 +41,7 @@ def remove_inexist_repo(github_repos, gitea_repos):
                 headers=cache.headers(),
             )
             if response.status_code == 204:
-                logging.info(f"Removed removed: {repo['full_name']}")
+                logging.info(f"Repository removed: {repo['full_name']}")
             else:
                 logging.warning(
                     f"Repository removal failed: {repo['full_name']}: {response.status_code} {response.content}"
@@ -60,8 +61,8 @@ def remove_gitea_repo(repo_name):
     )
 
     if response.status_code == 204:
-        logging.info(f"Repository removed: {repo_name}")
+        logging.info(f"\tRepository removed: {repo_name}")
     else:
         logging.warning(
-            f"Repository removal failed: {repo_name}: {response.status_code} {response.content}"
+            f"\tRepository removal failed: {repo_name}: {response.status_code} {response.content}"
         )

@@ -14,6 +14,7 @@ def main():
         gitea_repos = fetch_gitea_repos()
         remove_inexist_repo(github_repos, gitea_repos)
 
+    logging.info("\nMirroring repositories...")
     for repo in github_repos:
         mirror_to_gitea(repo)
 
