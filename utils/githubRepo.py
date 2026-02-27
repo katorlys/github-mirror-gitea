@@ -15,7 +15,7 @@ def headers():
 def fetch_request(raw_url, header, name):
     repos = []
     page = 1
-    per_page = 200
+    per_page = 100
 
     while True:
         response = requests.get(
@@ -45,7 +45,7 @@ def fetch_github_repos():
             fetch_request(
                 "https://api.github.com/user/starred?page={{page}}&per_page={{per_page}}",
                 headers(),
-                "GitHub repositories",
+                "starred GitHub repositories",
             )
         )
 
