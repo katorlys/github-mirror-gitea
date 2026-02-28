@@ -1,4 +1,3 @@
-import json
 import logging
 import time
 
@@ -37,7 +36,7 @@ def mirror_to_gitea(repo):
     if check_gitea_repo_exists(target_repo_name):
         if config.REMOVE_EXISTING_REPO:
             logging.info(f"\tRemove (exists): {target_repo_name}")
-            remove_gitea_repo(repo_name)
+            remove_gitea_repo(target_repo_name)
         else:
             logging.info(f"\tSkip (exists): {target_repo_name}")
             return
@@ -59,7 +58,7 @@ def mirror_to_gitea(repo):
         response = requests.post(
             f"{cache.HOST}/repos/migrate",
             headers=cache.headers_json(),
-            data=json.dumps(data),
+            json=data
         )
         if response.status_code == 201:
             logging.info(f"\tSuccess: {target_repo_name}")

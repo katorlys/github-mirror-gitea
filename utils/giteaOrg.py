@@ -1,4 +1,3 @@
-import json
 import logging
 
 import requests
@@ -21,7 +20,7 @@ def create_gitea_org(org_name):
         "visibility": "public",
     }
     response = requests.post(
-        f"{cache.HOST}/orgs", headers=cache.headers_json(), data=json.dumps(data)
+        f"{cache.HOST}/orgs", headers=cache.headers_json(), json=data
     )
 
     if response.status_code == 201:
