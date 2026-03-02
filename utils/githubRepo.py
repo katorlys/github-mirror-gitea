@@ -67,5 +67,12 @@ def fetch_github_repos():
             )
         )
 
-    logging.info(f"Total GitHub repositories fetched: {len(repos)}")
-    return repos
+    seen = set()
+    unique_repos = []
+    for repo in repos:
+        if repo["id"] not in seen:
+            seen.add(repo["id"])
+            unique_repos.append(repo)
+
+    logging.info(f"Total GitHub repositories fetched: {len(unique_repos)}")
+    return unique_repos
