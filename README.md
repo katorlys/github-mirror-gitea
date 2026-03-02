@@ -25,9 +25,11 @@
 ## Introduction
 A Python script to mirror all of your GitHub repositories to your Gitea server, with multiple options.
 
-Repositories created are mirrors of the original repositories, and by default Gitea will automatically fetch them every 8 hours.
+This script uses the Gitea `migrate` API to create mirror repositories, which is more efficient and reliable than manually cloning and pushing repositories.
 
-Using GitHub APIs and Gitea APIs -- especially the `migrate` function.
+Repositories created are mirrors of the original repositories, and [by default Gitea will automatically fetch them every 8 hours](https://docs.gitea.com/usage/repo-mirror#pulling-from-a-remote-repository). So if you didn't create any new repositories on GitHub after running this script and want to update the mirrored repositories, you **don't** need to run the script again, just wait for Gitea to fetch the updates, or trigger the fetch manually in Gitea repository settings page.
+
+If you don't want to get your hands dirty, you can use our [GitHub Action](https://github.com/katorlys/gitea-mirror-action).
 
 ### Features
 There are many options to choose from:
@@ -40,7 +42,9 @@ There are many options to choose from:
 - Whether to remove existing repos in Gitea
 - Whether to create new organizations in Gitea if `{username}` in `{username}/{repo_name}` doesn't match your GitHub username
 
-Will also mirror your repository description and private status.
+The script will also mirror your repository description, and keep the mirrored repositories public or private as the original ones.
+
+Using only API requests, no repositories will be cloned to your local machine.
 
 ### Tech Stack
 - Python3
